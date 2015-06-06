@@ -1,0 +1,12 @@
+#!/bin/bash
+scriptname=`basename $0`
+
+case `uname -s` in
+   Linux) python_root=/usr/bin;;
+   Darwin) python_root=/usr/bin/;;
+   *) echo "$scriptname: unsupported platform: `uname -s`" 1>&2; exit 2;;
+esac
+python=$python_root/python
+
+exec "$python" -Wignore::DeprecationWarning "$0".py "$@"
+exit $?
