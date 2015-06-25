@@ -3,6 +3,7 @@ from framework.exceptions import *
 from framework.misc import Display
 import os
 import sys
+from framework.testmanager import TestManager
 
 def Main():
    ret_code = 0
@@ -10,6 +11,18 @@ def Main():
       # Get testing configuration
       config = Config()
       config.CheckOptions()
+      from pprint import pprint
+      #pprint(config)
+
+      testManager = TestManager(config)
+
+      config.logObj.log.debug('Calling testManager.RunTests')
+      testManager.RunTest()
+      result = testManager.result
+      if result == "ABORT" or result == "FAIL" or result == "TIMEOUT" or result == "SKIP":
+         # Not a clean pass.
+         ret_code = 1
+      config.logObj.log.debug('testManager.RunTests done')
 
    except (LogError, ConfigError, VCError, ImportError) as e:
       try:

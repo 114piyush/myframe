@@ -10,8 +10,8 @@ from misc import IsWindows, Makedirs
 class Log(object):
    def __init__(self, filename='coho-main.log', logDir='', testname='',
                 consoleOutput=False):
-      if not filename.startswith('coho-main'):
-         raise LogError("log filename '%s' must start with 'coho-main'" \
+      if not filename.startswith('coho-main') and not filename.startswith('coho-log'):
+         raise LogError("log filename '%s' must start with 'coho-main' or 'coho-log'" \
                         % filename)
       self.filename = filename
       self.baseDir = 'C:\\temp' if IsWindows() else '/tmp'

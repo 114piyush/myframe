@@ -4,6 +4,7 @@ import os.path
 import time
 import re
 import random
+import yaml
 
 from log import Log
 from ssh import *
@@ -14,7 +15,7 @@ from argparse import ArgumentParser
 class Test(object):
    def __init__(self, path):
       self.path = path
-      self.desc = ''
+      self.desc = 'Test description:'
       self.timeout = 1800
 
       if path:
@@ -40,7 +41,6 @@ class Config(object):
       self.timelabel = int(time.time())
       self.pid = os.getpid()
       self.opts = self.GetOptions()
-      self.testedSourcesRegex = None
       self.errors = []
       self.warnings = []
 
@@ -57,28 +57,26 @@ class Config(object):
 
       parser = ArgumentParser(usage=usage, parents=[conf_parser])
 
+      if len(sys.argv) < 2:
+         parser.print_usage()
+	 sys.exit(1)
+
       parser.add_argument('-l', '--list', action='store_true', dest='listTests',
                         help='list all tests')
       testGroup = parser.add_argument_group('Tests')
-      testGroup.add_argument('-a', '--all', action='store_true', dest='runAll',
-                           help='run all tests')
-      testGroup.add_argument('-i', '--include', dest='reInclude',
-                           metavar='REGEX1[,REGEX2,...]',
-                           help='run tests matching these regexes')
-      testGroup.add_argument('-e', '--exclude', dest='reExclude',
-                           metavar='REGEX1[,REGEX2,...]',
-                           help='exclude tests matching these regexes')
+      testGroup.add_argument('-t', '--test', dest='testCase',
+                           help='test case option')
       parser.add_argument_group(testGroup)
 
       vcGroup = parser.add_argument_group('VC')
-      vcGroup.add_argument('--vc-host', dest='vcHost', default=[], metavar='IP1[,IP2,..]',
+      vcGroup.add_argument('--vc-hosts', dest='vcHosts', default=[], metavar='IP1[,IP2,..]',
                           help='host or IP of VC to use for these tests. Comma seprated multiple VC host can be specified')
       vcGroup.add_argument('--vc-user', dest='vcUser', metavar='USER')
       vcGroup.add_argument('--vc-pwd', dest='vcPwd', metavar='PWD')
       parser.add_argument_group(vcGroup)
 
       vcGroup = parser.add_argument_group('SSAPP')
-      vcGroup.add_argument('--ssapp-host', dest='ssappHost', default=[], metavar='IP1[,IP2,..]',
+      vcGroup.add_argument('--ssapp-hosts', dest='ssappHosts', default=[], metavar='IP1[,IP2,..]',
                           help='host or IP of SSAPP to use for these tests. Comma seprated multiple SSAPP host can be specified')
       vcGroup.add_argument('--ssapp-user', dest='vcUser', metavar='USER')
       vcGroup.add_argument('--ssapp-pwd', dest='vcPwd', metavar='PWD')
@@ -86,9 +84,8 @@ class Config(object):
 
       envGroup = parser.add_argument_group('Environment')
       envGroup.add_argument('--username', dest='username',
-                          help='defaults to the USER env variable',
-                          default=os.environ.get('USER') or \
-                                  os.environ.get('USERNAME'))
+                            help='defaults to the USER env variable',
+			    default=os.environ.get('USER') or os.environ.get('USERNAME'))
       envGroup.add_argument('--log-dir', dest='logDir', metavar='DIR',
                           help='overrides /tmp or C:\\tmp')
       envGroup.add_argument('--tests-dir', dest='testsDir', metavar='DIR',
@@ -99,11 +96,15 @@ class Config(object):
       rtGroup = parser.add_argument_group('Runtime')
       rtGroup.add_argument('--debug-mode', action='store_true',
                          dest='debugMode',
-                         help='run tests serially in the test-coho process ' \
-                            'so tests can be debugged')
+                         help='put logs in console to make debug easy')
       rtGroup.add_argument('--no-run', dest='noRun', action='store_true',
                          help='just print what tests would be run')
       parser.add_argument_group(rtGroup)
+
+      testGroup = parser.add_argument_group('TestOption')
+      testGroup.add_argument('--test-option', dest='testOption', metavar='key:val[,key:val]',
+                         help='additional option used for parameters')
+      parser.add_argument_group(testGroup)
 
       opts = parser.parse_args(remaining_argv)
 
@@ -120,12 +121,14 @@ class Config(object):
       if not self.opts.testsDir:
          self.opts.testsDir = self.GetDirPath('TESTSDIR',
                                                os.path.join('coho', 'tests'))
-      sys.path.append(self.opts.testsDir)
       if not os.path.exists(self.opts.testsDir):
          self.errors.append('tests dir does not exist: %s' % self.opts.testsDir)
+      sys.path.append(self.opts.testsDir)
 
       if self.opts.noRun:
-         self.ListTestsToRun()
+         self.ListTestToRun()
+      if self.opts.listTests:
+         self.ListAllTests()
       self.ScrubOptions()
       if self.errors:
          raise ConfigError(self.errors)
@@ -146,17 +149,27 @@ class Config(object):
       # Try to auto-discover the directory.
       splitStr = '%s%s%s' % (os.path.sep, 'lib', os.path.sep)
       baseDir = os.path.realpath(__file__).rsplit(splitStr, 1)[0]
-      dirPath = os.path.join(baseDir, pathEnding)
+      testDirPath = os.path.join(baseDir, pathEnding)
 
-      return dirPath
+      return testDirPath
 
-   def ListTestsToRun(self):
-      '''Print a list of tests.'''
-      if not self.testsToRun:
+   def ListTestToRun(self):
+      '''Used to check and print test.'''
+      if not self.testToRun:
          print 'No tests would run'
       else:
-         print 'The following tests would be run:'
-         for test in self.testsToRun:
+         print 'The following test would be run:'
+         print '  * %s ' % (self.testToRun.name)
+         print
+         sys.exit(0)
+
+   def ListAllTests(self):
+      '''Used to check and print test.'''
+      if not self.allTests:
+         print 'No tests would run'
+      else:
+         print 'The following tests present:'
+	 for test in self.allTests:
             print '  * %s ' % (test.name)
          print
          sys.exit(0)
@@ -169,6 +182,10 @@ class Config(object):
 
       bottomLogDir = 'coho-log-%s-%s-%s' % (self.opts.username, self.timelabel,
                                             self.pid)
+      # Convert test options to dictionary
+      if self.opts.testOption:
+         testoption = self.opts.testOption.replace(':', ': ')
+	 self.opts.testOption = yaml.load('{' + testoption + '}')
       if not self.opts.logDir:
          baseDir = 'C:\\temp' if IsWindows() else '/tmp'
          self.opts.logDir = os.path.join(baseDir, bottomLogDir)
@@ -181,28 +198,12 @@ class Config(object):
                             (self.opts.logDir, e))
 
    @Cache
-   def testsToRun(self):
-      '''Determine which tests to run based on CLI options.'''
-      regexes = {}
-      for attr in ['reInclude', 'reExclude']:
-         if hasattr(self.opts, attr) and getattr(self.opts, attr):
-            regexes[attr] = \
-               re.compile('|'.join(['(%s)' % r \
-                          for r in getattr(self.opts, attr).split(',')]))
-
-      random.shuffle(self.allTests)
-      testsToRun = []
+   def testToRun(self):
+      '''Determine which test to run based on CLI options.'''
+      testcase = self.opts.testCase.replace('.','/') + '.py'
       for test in self.allTests:
-         # If the positive regex doesn't match, skip this test.
-         if 'reInclude' in regexes and \
-            not regexes['reInclude'].search(test.name):
-            continue
-         # If the negative regex matches, skip this test.
-         if 'reExclude' in regexes and \
-            regexes['reExclude'].search(test.name):
-            continue
-         testsToRun.append(test)
-      return testsToRun
+         if test.name == testcase:
+	    return test
 
    @Cache
    def allTests(self):
@@ -213,5 +214,4 @@ class Config(object):
             if filename.endswith('.py') and filename != '__init__.py':
                test = Test(os.path.join(path, filename))
                tests.append(test)
-               print filename
       return tests

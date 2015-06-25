@@ -1,0 +1,61 @@
+2015-06-25 14:43:42,378 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:43:42,584 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:45:30,180 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:45:30,444 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:46:29,894 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:46:30,007 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:46:49,771 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:46:49,947 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:46:50,278 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:47:12,188 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:47:12,381 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:47:12,720 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:48:54,537 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:48:54,719 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:48:55,121 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:56:52,618 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:56:52,884 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:56:53,614 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:57:17,463 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:57:17,650 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:57:17,981 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:58:39,740 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:58:39,860 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:58:40,116 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 14:59:10,973 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 14:59:11,094 [INFO vm.py::GetVM::18] Getting vmMor for vm dummyvm
+2015-06-25 14:59:11,512 [INFO vm.py::CloneVM::28] Creatting clone of vm dummyvm to dummyvm-1
+2015-06-25 15:20:49,308 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:21:24,453 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:21:24,739 [INFO vm.py::CloneManyVM::44] Creating 2 full clone vms from vm dummyvm
+2015-06-25 15:21:24,757 [INFO vm.py::CloneManyVM::52] Creating clone of vm dummyvm to dummyvm-11
+2015-06-25 15:22:16,785 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:22:16,907 [INFO vm.py::CloneManyVM::44] Creating 2 full clone vms from vm dummyvm
+2015-06-25 15:22:16,916 [INFO vm.py::CloneManyVM::52] Creating clone of vm dummyvm to dummyvm-11
+2015-06-25 15:26:12,883 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:26:32,596 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:26:32,728 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:26:33,265 [INFO vm.py::CloneManyVM::44] Creating 2 full clone vms from vm dummyvm
+2015-06-25 15:26:33,271 [INFO vm.py::CloneManyVM::52] Creating clone of vm dummyvm to dummyvm-11
+2015-06-25 15:26:33,290 [INFO vm.py::CloneManyVM::52] Creating clone of vm dummyvm to dummyvm-12
+2015-06-25 15:28:55,771 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:28:56,049 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:28:56,660 [INFO vm.py::LinkCloneVM::74] Creating Linked clone of vm dummyvm to test-1
+2015-06-25 15:29:17,280 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:29:17,479 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:29:45,814 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:29:45,934 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:29:46,447 [INFO vm.py::LinkCloneVM::74] Creating Linked clone of vm dummyvm to test-1
+2015-06-25 15:31:01,299 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:31:01,403 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:31:29,464 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:31:29,647 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:31:30,071 [INFO vm.py::LinkCloneManyVM::88] Creating 2 linked clone vms from vm dummyvm
+2015-06-25 15:31:45,765 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:31:45,898 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:31:46,369 [INFO vm.py::LinkCloneManyVM::88] Creating 2 linked clone vms from vm dummyvm
+2015-06-25 15:32:03,582 [INFO vcenter.py::GetVCServiceInstance::32] Connecting to VC 10.128.8.39 using user=root password=ILikeSwipe
+2015-06-25 15:32:03,688 [INFO vm.py::GetVMMor::18] Getting vmMor for vm dummyvm
+2015-06-25 15:32:04,431 [INFO vm.py::LinkCloneManyVM::88] Creating 2 linked clone vms from vm dummyvm
+2015-06-25 15:32:04,501 [INFO vm.py::LinkCloneManyVM::99] Creating link clone of vm dummyvm to test-coho-38991
+2015-06-25 15:32:04,545 [INFO vm.py::LinkCloneManyVM::99] Creating link clone of vm dummyvm to test-coho-38992
